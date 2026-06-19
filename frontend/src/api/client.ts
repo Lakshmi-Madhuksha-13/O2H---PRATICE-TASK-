@@ -1,4 +1,8 @@
 import axios from 'axios';
+import mockService from './mockService';
+
+const isMockMode = import.meta.env.VITE_USE_MOCK !== 'false' && 
+  (import.meta.env.VITE_USE_MOCK === 'true' || localStorage.getItem('taskora_use_mock') !== 'false');
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
@@ -6,6 +10,7 @@ const client = axios.create({
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
+  adapter: isMockMode ? (config) => mockService.handleRequest(config) : undefined,
 });
 
 // Request Interceptor: Attach Sanctum Bearer Token
@@ -39,3 +44,4 @@ client.interceptors.response.use(
 );
 
 export default client;
+

@@ -17,6 +17,7 @@ import {
   Clock,
   ArrowUpDown,
   Circle,
+  ListTodo,
 } from 'lucide-react';
 
 export const Tasks: React.FC = () => {
