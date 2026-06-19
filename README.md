@@ -205,11 +205,19 @@ The React app builds statically on Vite:
    - **Output Directory:** `dist`
 3. Configure `VITE_API_URL` under Environment Variables.
 
-### Backend (Railway)
-The Laravel app runs as a containerized web service:
-1. Connect repository on Railway and select `backend` subfolder.
-2. In Railway variables, supply the environment keys:
-   - `APP_KEY`
-   - `DB_CONNECTION=mongodb`
-   - `MONGODB_URI`
-   - `MONGODB_DATABASE`
+### Backend (Render)
+To deploy the Laravel API backend for free on Render:
+1. Sign up on [Render](https://render.com/) and create a new **Web Service**.
+2. Connect your GitHub repository and select `backend` as the Root Directory.
+3. Choose **PHP** as the Runtime environment.
+4. Configure the following Environment Variables:
+   - `APP_KEY`: (Copy the base64 key generated in your local `.env`)
+   - `DB_CONNECTION`: `mongodb`
+   - `MONGODB_URI`: (Your MongoDB Atlas connection DSN)
+   - `MONGODB_DATABASE`: `taskora`
+   - `SESSION_DRIVER`: `file`
+   - `CACHE_STORE`: `file`
+5. Set the commands:
+   - **Build Command:** `composer install --no-dev --optimize-autoloader`
+   - **Start Command:** `php artisan serve --host 0.0.0.0 --port $PORT`
+6. Click Deploy. Render will compile the Laravel code and expose a public API endpoint (e.g. `https://taskora-api.onrender.com`).
