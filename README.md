@@ -194,30 +194,34 @@ npm run test
 
 ---
 
-## 🚀 Deployment
+## 🚀 Unified Deployment on Koyeb
 
-### Frontend (Vercel)
-The React app builds statically on Vite:
-1. Connect GitHub repository to Vercel.
-2. Configure settings:
-   - **Framework Preset:** Vite
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-3. Configure `VITE_API_URL` under Environment Variables.
+You can deploy both the React frontend and Laravel backend on a single unified platform: **Koyeb** (koyeb.com), which offers a free tier.
 
-### Backend (Render)
-To deploy the Laravel API backend for free on Render:
-1. Sign up on [Render](https://render.com/) and create a new **Web Service**.
-2. Connect your GitHub repository and select `backend` as the Root Directory.
-3. Choose **PHP** as the Runtime environment.
-4. Configure the following Environment Variables:
+### 1. Backend (Laravel API)
+1. Sign up on [Koyeb](https://www.koyeb.com/) using your GitHub account.
+2. Click **Create Service** and select **GitHub**.
+3. Choose your repository `O2H---PRATICE-TASK-`.
+4. In the service settings, configure:
+   - **Work Directory:** `backend`
+   - **Build Command:** `composer install --no-dev --optimize-autoloader`
+   - **Run Command:** `php artisan serve --host 0.0.0.0 --port $PORT`
+5. Add these **Environment Variables**:
    - `APP_KEY`: (Copy the base64 key generated in your local `.env`)
    - `DB_CONNECTION`: `mongodb`
    - `MONGODB_URI`: (Your MongoDB Atlas connection DSN)
    - `MONGODB_DATABASE`: `taskora`
    - `SESSION_DRIVER`: `file`
    - `CACHE_STORE`: `file`
-5. Set the commands:
-   - **Build Command:** `composer install --no-dev --optimize-autoloader`
-   - **Start Command:** `php artisan serve --host 0.0.0.0 --port $PORT`
-6. Click Deploy. Render will compile the Laravel code and expose a public API endpoint (e.g. `https://taskora-api.onrender.com`).
+6. Click **Deploy**. Koyeb will compile your Laravel backend and give you a public API URL (e.g. `https://taskora-api-yourname.koyeb.app`).
+
+### 2. Frontend (React + Vite)
+1. In the same Koyeb account, click **Create Service** and select **GitHub**.
+2. Choose your repository `O2H---PRATICE-TASK-`.
+3. In the service settings, configure:
+   - **Work Directory:** `frontend`
+   - **Build Command:** `npm run build`
+   - **Run Command:** `npx serve -s dist -l $PORT`
+4. Add this **Environment Variable**:
+   - `VITE_API_URL`: `https://taskora-api-yourname.koyeb.app/api` (The API URL from Step 1)
+5. Click **Deploy**. Koyeb will build the React code and give you a live website link (e.g. `https://taskora-web-yourname.koyeb.app`).
